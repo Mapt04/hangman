@@ -9,6 +9,8 @@ class Game
         end 
     end
 
+    attr_reader :save_file
+
     def play
         loop do
             display_status
@@ -75,6 +77,10 @@ class Game
         save_info = File.read(@save_file).split("\n")
         @solution = save_info[0]
         @guessed = save_info[1].split(",")
+    end
+
+    def delete_save()
+        File.delete(@save_file)
     end
 
     def not_guessed

@@ -34,6 +34,19 @@ def choose_save_file(saves)
     end
 end
 
+def request_save_delete(game)
+    loop do
+        print "Since the game is over, do you wish to delete the save? (y/n): "
+        response = gets.chomp.downcase
+        if response == "y"
+            game.delete_save
+            return
+        elsif response == "n"
+            return
+        end
+    end
+end
+        "Invalid choice."
 puts "===== Welcome to Hangman! =====\n\n"
 
 load_option = choose_load_option
@@ -47,3 +60,7 @@ puts
 
 game = Game.new(dictionary_array, save_file)
 game.play
+
+if game.save_file
+    request_save_delete(game)
+end
