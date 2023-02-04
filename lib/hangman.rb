@@ -44,9 +44,10 @@ def request_save_delete(game)
         elsif response == "n"
             return
         end
+        puts "Invalid choice."
     end
 end
-        "Invalid choice."
+
 puts "===== Welcome to Hangman! =====\n\n"
 
 load_option = choose_load_option
