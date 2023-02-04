@@ -18,8 +18,10 @@ end
 
 def show_save_files(saves)
     saves.each_with_index do |save_file, index|
-        status = Game.new([], save_file).status
+        game = Game.new([], save_file)
+        status = game.status
         puts ("(#{index+1})  #{status}")
+        game.delete
     end
 end
 
