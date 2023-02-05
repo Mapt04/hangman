@@ -6,6 +6,10 @@ class Menu
     puts "===== Welcome to Hangman! =====\n\n"
   end
 
+  def goodbye
+    puts "===== See you later! =====\n\n"
+  end
+
   def choose_load_option
     loop do
       puts '(1) New game'
@@ -46,6 +50,18 @@ class Menu
 
       return game.delete_save if response == 'y'
       return nil if response == 'n'
+
+      puts 'Invalid choice.'
+    end
+  end
+
+  def play_agin?
+    loop do
+      print 'Do you wish to play again? (y/n): '
+      response = gets.chomp.downcase
+
+      return true if response == 'y'
+      return false if response == 'n'
 
       puts 'Invalid choice.'
     end
