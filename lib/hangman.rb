@@ -1,69 +1,25 @@
-require_relative 'hangman_images.rb'
-require_relative 'game.rb'
+# frozen_string_literal: true
+
+require_relative 'hangman_images'
+require_relative 'game'
+require_relative 'menu'
 require 'securerandom'
 
 dictionary = File.read('dictionary.txt')
 dictionary_array = dictionary.split("\n")
 
-def choose_load_option
-    loop do
-        puts "(1) New game"
-        puts "(2) Load game"
-        print "Enter: "
-        selection = gets.to_i
-        return selection if selection in 1..2
-        puts "Invalid choice.\n"
-    end
-end
+menu = Menu.new
 
-def show_save_files(saves)
-    saves.each_with_index do |save_file, index|
-        game = Game.new([], save_file)
-        status = game.status
-        puts ("(#{index+1})  #{status}")
-        game.delete
-    end
-end
+menu.welcome
 
-def choose_save_file(saves)
-    loop do
-        puts
-        show_save_files(saves)
-        print "Select a file: "
-        selection = gets.to_i
-        return saves[selection-1] if (1..saves.length).include?(selection)
-        puts "Invalid choice.\n"
-    end
-end
-
-def request_save_delete(game)
-    loop do
-        print "Since the game is over, do you wish to delete the save? (y/n): "
-        response = gets.chomp.downcase
-        if response == "y"
-            game.delete_save
-            return
-        elsif response == "n"
-            return
-        end
-        puts "Invalid choice."
-    end
-end
-
-puts "===== Welcome to Hangman! =====\n\n"
-
-load_option = choose_load_option
+load_option = menu.choose_load_option
 
 if load_option == 2
-    saves = Dir["saves/*.txt"]
-    save_file = choose_save_file(saves)
+  saves = Dir['saves/*.txt']
+  save_file = menu.choose_save_file(saves)
 end
-
-puts
 
 game = Game.new(dictionary_array, save_file)
 game.play
 
-if game.save_file
-    request_save_delete(game)
-end
+menu.request_save_delete(game) if game.save_file
